@@ -16,13 +16,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <h2> <a href="{{ url_for('registracija') }}">Registracija Studenta</a></h2>
-                </li>
-                <li>
-                    <h2> <a href="{{ url_for('prof_reg') }}">Registracija Profesora</a></h2>
-                </li>
-                <li>
-                    <h2> <a href="{{ url_for('prof_log') }}"> Log in Profesora</a></h2>
+                    <h2> <a href="{{ url_for('prof_reg') }}">Registracija</a></h2>
                 </li>
             </ul>
         </div>
@@ -32,8 +26,8 @@
 <div class="container login-container">
     <div class="row">
         <div class="col-md-6 login-form-1">
-            <h3>Student</h3>
-            <form class="form-group" method="POST" action="/login">
+            <h3>Profesor</h3>
+            <form class="form-group" method="POST" action="/prof_log">
                 <div class="form-group">
 
                     {{ form.hidden_tag() }} {{ wtf.form_field(form.name) }}
