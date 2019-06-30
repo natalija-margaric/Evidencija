@@ -1,10 +1,11 @@
 
-from flask import Flask, Response, render_template, redirect, url_for
+from flask import Flask, Response, render_template, redirect, url_for, request, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import update
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
@@ -42,6 +43,10 @@ class Profesor(UserMixin,db.Model):
      lastname = db.Column(db.String(20), unique=True)
      password = db.Column(db.String(50))
      email = db.Column(db.String(50))
+
+     def _init_(self, name, lastname):
+         self.name = name
+         self.lastname = lastname
     
 @login_manager.user_loader
 def load_profesor(profesor_id):
@@ -49,15 +54,34 @@ def load_profesor(profesor_id):
    
 class Kolegij(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    naziv_kolegija = db.Column(db.String(15), unique=True)
-   
+    naziv_kolegija = db.Column(db.String(100), unique=True)
 
-#class KolegijForm(FlaskForm):
+    def _init_(self, naziv_kolegija):
+        self.naziv_kolegija = naziv_kolegija
+    
+
+class KolegijForm(FlaskForm):
+    naziv_kolegija = StringField ('Naziv Kolegija', validators=[InputRequired()])
 
 class Prisutnost (db.Model):
         id = db.Column(db.Integer, primary_key=True)
-        prisutnost= db.Column (db.Integer)
-        naziv_kolegija = db.Column (db.String(20))
+        prisutnost= db.Column (db.String)
+        prezime_studenta = db.Column (db.String)
+        naziv_kolegija = db.Column (db.String)
+        datum = db.Column (db.String)
+
+        def _init_(self, prisutnost, prezime_studenta, naziv_kolegija, datum):
+            self.prisutnost = prisutnost
+            self.prezime_studenta = prezime_studenta
+            self.naziv_kolegija = naziv_kolegija
+            self.datum = datum
+
+class PrisutnostForm(FlaskForm):
+       prisutnost = StringField ('')
+       prezime_studenta= StringField ('') 
+       naziv_kolegija =  StringField ('') 
+       datum =  StringField ('') 
+        
 
 class LoginForm(FlaskForm):
     name = StringField('Ime', validators=[InputRequired(), Length(min=2, max=15)])
@@ -99,10 +123,28 @@ def login():
        
    return render_template('login.html', form=form)
 
-@app.route("/student_profile")
+				
+@app.route("/student_profile", methods=['GET', 'POST'])
 @login_required
 def student_profile():
-    return render_template('student_profile.html', name=current_user.name)
+    kolegij = Kolegij.query.all()
+    profesor = Profesor.query.all()
+      
+    #form = PrisutnostForm()
+    if request.method == "POST": 
+        ime = request.form.get("ime")
+        prisutnost = request.form.get("prisutnost")
+        kolegij = request.form.get("kolegij")
+        datum = request.form.get("datum")
+
+	    
+
+        new_prisutnost = Prisutnost(prisutnost=prisutnost, prezime_studenta=ime, naziv_kolegija=kolegij, datum=datum)  
+        db.session.add(new_prisutnost)
+        db.session.commit()
+        
+       
+    return render_template('student_profile.html', name=current_user.name,  kolegij=kolegij, profesor=profesor,)
 
 @app.route('/logout')
 @login_required
@@ -119,17 +161,26 @@ def registracija():
         db.session.add(new_user)
         db.session.commit()
 
-        return '<h1>Uspjesno ste se registrirali</h1>'
+        flash('Uspjesno ste se registrirali')
         
        
     return render_template('registracija.html', form=form)
 
     
-@app.route("/profesor_profile")
+@app.route("/profesor_profile", methods=['GET', 'POST'])
 @login_required
 def profesor_profile():
+    form = KolegijForm()
+    if form.validate_on_submit():
+        new_kolegij = Kolegij(naziv_kolegija=form.naziv_kolegija.data)
+        db.session.add(new_kolegij)
+        db.session.commit()
+
     student = Student.query.all()
-    return render_template('profesor_profile.html', student=student)
+    prisutnost = Prisutnost.query.all()
+  
+   
+    return render_template('profesor_profile.html', student=student, form=form, prisutnost=prisutnost)
 
 @app.route("/prof_log", methods=['GET', 'POST'])
 def prof_log():
