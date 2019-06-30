@@ -1,4 +1,4 @@
-{% extends "bootstrap/base.html" %} {% block title %} Profil_Profesora {% endblock %} {% block styles %} {{super()}} {% endblock %} {% block content %}
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %} Dashboard {% endblock %} {% block styles %} {{super()}} {% endblock %} {% block content %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -8,7 +8,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <h4>Evidencija Studenata</h4>
+
+
+
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -31,7 +33,7 @@
 
     </div>
 </nav>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background:burlywood">
     <pre><h1 class="page-header">Hello Profesore</h1></pre>
 
     <body>
@@ -42,26 +44,23 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Kolegij=Osnove Programiranja</th>
+                        <th>Kolegij=Dinamicke Web Aplikacije</th>
                         <th>Ime/Prezime</th>
                         <th>Prisutnost</th>
                         <th>Datum</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {%for student in student%}
+                    {%for prisutnost in prisutnost%}
                     <tr>
-                        <td></td>
-                        <td>{{student.name}} {{student.lastname}} <br> </td>
-                        <td></td>
+                        <td> </td>
+                        <td> {{prisutnost.prezime_studenta}} <br></td>
+                        <td>{{prisutnost.prisutnost}} </td>
+                        <td>{{prisutnost.datum}} </td>
                         <td></td>
                     </tr>
                     {% endfor %}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+
 
                 </tbody>
             </table>
@@ -73,6 +72,14 @@
             </script>
 
         </div>
+        <br>
+        <br>
+        <br>
+        <form method="POST" , action="/profesor_profile">
+            {{ form.hidden_tag() }} {{ wtf.form_field(form.naziv_kolegija) }}
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+
+        </form>
 
 
         {% endblock %}

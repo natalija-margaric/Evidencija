@@ -1,72 +1,170 @@
-{% extends "bootstrap/base.html" %} {% block title %} Dashboard {% endblock %} {% block styles %} {{super()}} {% endblock %} {% block content %}
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Dashboard </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body background="static/images/ko.gif">
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <h4>Evidencija Studenata</h4>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="#"></a>
-                </li>
-                <li>
-                    <a href="#"></a>
-                </li>
-                <li>
-                    <a href="{{ url_for('logout') }}">Log Out</a>
-                </li>
-                <li>
-                    <a href="#"></a>
-                </li>
-            </ul>
+
+                <body background="#E6E6FA"></body>
+            </div>
+
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#"></a>
+                    </li>
+                    <li>
+                        <a href="#"></a>
+                    </li>
+                    <li>
+                        <a href="/logout">Log Out</a>
+                    </li>
+                    <li>
+                        <a href="#"></a>
+                    </li>
+                </ul>
+
+            </div>
+
 
         </div>
+    </nav>
 
 
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <pre><h1 class="page-header">Hello, {{name}}</h1></pre>
+
+        <body>
+
+
+            <div class="container">
+                <h2></h2>
+                <p></p>
+
+
+                <table class="table">
+
+
+                    <thead class="thead-dark">
+                        <form action="/student_profile" method='POST'>
+                            <tr>
+                                <th></th>
+                                <th>Kolegij</th>
+                                <th>Prisutnost/upisi DA</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+
+
+                            <td> </td>
+                            {%for kolegij1 in kolegij%}
+                            <td>{{kolegij1.naziv_kolegija}}</td>
+                            {% endfor %}
+
+
+                            <td><input id="csrf_token" name="csrf_token" type="hidden" value="ImY3ZGUyMzdhNDJjMTU1MmUwODY0ZmEzZTUxOWM5Yjk3MTM2Y2QzNGIi.XRi1JQ.OUS8Swo0x-0aklLzcfxIdhc3Y4g">
+
+                                <form method="POST" name="vform" action="/student_profile">
+
+                                    <input type="hidden" value="{{name}}" name="ime" id="1">
+
+
+
+                                    <div class="form-group "><label class="control-label" for="prisutnost"></label>
+
+                                        <input class="form-control" id="prisutnost" name="prisutnost" type="text" value="da">
+                                        <input type="text" placeholder="Unesite naziv kolegija" name="kolegij" id="1">
+
+                                        <input type="date" name="datum" id="1">
+                                    </div>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <th></th>
+                            <th></th>
+
+                            <td><input id="csrf_token" name="csrf_token" type="hidden" value="ImY3ZGUyMzdhNDJjMTU1MmUwODY0ZmEzZTUxOWM5Yjk3MTM2Y2QzNGIi.XRi1JQ.OUS8Swo0x-0aklLzcfxIdhc3Y4g">
+
+
+
+
+                                <div class="form-group "><label class="control-label" for="prisutnost"></label>
+
+
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+
+                            <td></td>
+
+                            <td><input id="csrf_token" name="csrf_token" type="hidden" value="ImY3ZGUyMzdhNDJjMTU1MmUwODY0ZmEzZTUxOWM5Yjk3MTM2Y2QzNGIi.XRi1JQ.OUS8Swo0x-0aklLzcfxIdhc3Y4g">
+
+
+
+
+                                <div class="form-group "><label class="control-label" for="prisutnost"></label>
+
+
+
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td> <br></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <button type="submit" class="btn btn-primary">Potvrda Prisutnosti</button>
+                </form>
+            </div>
     </div>
-</nav>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <pre><h1 class="page-header">Hello, {{ name }}</h1></pre>
-
-    <body>
-
-        <div class="container">
-            <h2></h2>
-            <p></p>
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Profesor</th>
-                        <th>Kolegij</th>
-                        <th>Prisutnost</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tihomir Orehovacki</td>
-                        <td>Osnove Programiranja</td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Darko Etinger</td>
-                        <td>Modeliranje i Simulacija</td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                    <tr>
-                        <td>Nikola Tankovic</td>
-                        <td>Dinamicke Web Aplikacije</td>
-                        <td><input type="checkbox"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary">Potvrda Prisutnosti</button>
-        </div>
+    </form>
 
 
-        {% endblock %}
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+
+</html>

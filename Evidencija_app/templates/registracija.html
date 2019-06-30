@@ -1,11 +1,8 @@
-{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block html_attribs %} lang="en"{% endblock %} {% block title %}Flask App{% endblock %} {% block styles %} {{super()}}
-<br>
-<br>
-<br>
-<br>
-<title>Register Form</title>
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block html_attribs %} lang="en" {% endblock %} {% block title %}Flask App{% endblock %} {% block styles %} {{super()}}
 
-
+<br>
+<br>
+<br>
 <!-- Icons font CSS-->
 
 <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -18,14 +15,9 @@
 <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
 
 <!-- Main CSS-->
-<link href="css/register.css" rel="stylesheet" media="all">
-<style>
-    .divbk {
-        background-image: url("images/proba.jpeg");
-        height: 400px;
-        width: 450px;
-    }
-</style>
+<link rel="stylesheet" href="{{url_for('.static', filename='css/register.css')}}">
+
+<body background="static/images/info.jpg"></body>
 <div class="container">
     <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
